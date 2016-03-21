@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=pos
+comment0.target=Mirror(Tile)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Mirror\r\n
+comment1.params=
+comment1.target=void\ rotate()
+comment2.params=
+comment2.target=void\ setGraphic()
+comment3.params=g
+comment3.target=void\ paint(java.awt.Graphics)
+numComments=4

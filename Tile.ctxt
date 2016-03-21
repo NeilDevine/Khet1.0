@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=x\ y
+comment0.target=Tile(int,\ int)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Tile\r\n
+comment1.params=p
+comment1.target=Tile(Piece)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Tile\r\n
+comment2.params=
+comment2.target=Piece\ getPiece()
+comment3.params=p
+comment3.target=void\ setPiece(Piece)
+comment4.params=
+comment4.target=void\ clear()
+comment5.params=g
+comment5.target=void\ paint(java.awt.Graphics)
+comment6.params=g
+comment6.target=void\ clear(java.awt.Graphics)
+comment7.params=x\ y
+comment7.target=boolean\ contains(int,\ int)
+numComments=8

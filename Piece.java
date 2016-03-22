@@ -7,5 +7,7 @@ import java.awt.*;
  */
 public abstract class Piece
 {
+    int facing =1;
     public abstract void paint(Graphics g);
+    public abstract Direction bounceLaser(Direction laserDir);
 }

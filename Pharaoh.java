@@ -1,38 +1,41 @@
+///////////////////////////////////////////////////////////////////////////
+// For line wrap reference (above is 75)
 import java.awt.*;
 /**
- * Write a description of class Pharaoh here.
+ * This class represents the Pharaoh piece in a game of Khet.
  * 
  * @author (your name) 
- * @version (a version number or a date)
+ * @version 1.0
  */
 public class Pharaoh extends Piece
 {
-    public void paint(Graphics g){
-        
+    /**
+     * The Constructor for Pharaoh objects.
+     * @param t The Tile where the Pharaoh resides
+     * @param color The color of the Pharaoh (true for red, false for blue)
+     */
+    public Pharaoh(Tile t, boolean color){
+        x = t.x;
+        y = t.y;
+        this.color = color;
     }
     
-        /**
-     * Returns the Direction that the laser must go laserDir the given Direction of the laser.
+    /**
+     * This method paints the piece.
+     * @param g The graphics object
+     */
+    public void paint(Graphics g){
+        g.setColor( color ? Color.RED : Color.BLUE );
+        g.fillOval(x + 20, y + 20, 10, 10);
+    }
+    
+    /**
+     * This method determines the direction that the laser should go,
+     * given its current direction, when it hits this piece.
+     * @param laserDir The laser's current direction
+     * @return The laser's next direction
      */
     public Direction bounceLaser(Direction laserDir){
-        switch(facing){
-            case 1:// Quadrant I
-            if(laserDir == Direction.WEST) return Direction.NORTH;
-            else if(laserDir == Direction.SOUTH) return Direction.EAST;
-            return null;
-            case 2: // Quadrant II
-            if(laserDir == Direction.SOUTH) return Direction.WEST;
-            else if(laserDir == Direction.EAST) return Direction.NORTH;
-            return null;
-            case 3: // Quadrant III
-            if(laserDir == Direction.NORTH) return Direction.WEST;
-            else if(laserDir == Direction.EAST) return Direction.SOUTH;
-            return null;
-            case 0: // Quadrant IV
-            if(laserDir == Direction.WEST) return Direction.SOUTH;
-            else if(laserDir == Direction.NORTH) return Direction.EAST;
-            return null;
-        }
-        return Direction.WEST;
+        return null;
     }
 }

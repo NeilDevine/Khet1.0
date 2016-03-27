@@ -1,11 +1,11 @@
 #BlueJ class context
-comment0.params=pos
-comment0.target=Scarab(Tile)
+comment0.params=pos\ color
+comment0.target=Scarab(Tile,\ boolean)
+comment0.text=\r\n\ This\ is\ the\ constructor\ for\ Scarab\ objects.\r\n\ @param\ pos\ The\ Tile\ where\ the\ Scarab\ resides\r\n\ @param\ color\ The\ color\ of\ the\ Scarab\ (true\ for\ red,\ false\ for\ blue)\r\n
 comment1.params=g
 comment1.target=void\ paint(java.awt.Graphics)
-comment2.params=
-comment2.target=void\ rotate()
-comment3.params=laserDir
-comment3.target=Direction\ bounceLaser(Direction)
-comment3.text=\r\n\ Returns\ the\ Direction\ that\ the\ laser\ must\ go\ laserDir\ the\ given\ Direction\ of\ the\ laser.\r\n
-numComments=4
+comment1.text=\r\n\ This\ method\ paints\ the\ piece.\r\n\ @param\ g\ The\ graphics\ object\r\n
+comment2.params=laserDir
+comment2.target=Direction\ bounceLaser(Direction)
+comment2.text=\r\n\ This\ method\ determines\ the\ direction\ that\ the\ laser\ should\ go,\r\n\ given\ its\ current\ direction,\ when\ it\ hits\ this\ piece.\r\n\ @param\ laserDir\ The\ laser's\ current\ direction\r\n\ @return\ The\ laser's\ next\ direction\r\n
+numComments=3

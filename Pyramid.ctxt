@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=pos\ color
+comment0.target=Pyramid(Tile,\ boolean)
+comment0.text=\r\n\ This\ is\ the\ constructor\ for\ Pyramid\ objects.\r\n\ @param\ pos\ The\ Tile\ where\ the\ Pyramid\ resides\r\n\ @param\ color\ The\ color\ of\ the\ Pyramid\ (true\ for\ red,\ false\ for\ blue)\r\n
+comment1.params=
+comment1.target=void\ rotate()
+comment1.text=\ \r\n\ This\ method\ rotates\ the\ piece\ 90\ degrees.\r\n
+comment2.params=
+comment2.target=void\ setGraphic()
+comment2.text=\r\n\ This\ method\ sets\ the\ graphic\ polygon\ based\ on\ the\ position.\r\n
+comment3.params=g
+comment3.target=void\ paint(java.awt.Graphics)
+comment3.text=\r\n\ This\ method\ paints\ the\ piece.\r\n\ @param\ g\ The\ graphics\ object\r\n
+comment4.params=laserDir
+comment4.target=Direction\ bounceLaser(Direction)
+comment4.text=\r\n\ This\ method\ determines\ the\ direction\ that\ the\ laser\ should\ go,\r\n\ given\ its\ current\ direction,\ when\ it\ hits\ this\ piece.\r\n\ @param\ laserDir\ The\ laser's\ current\ direction\r\n\ @return\ The\ laser's\ next\ direction\r\n
+comment5.params=to
+comment5.target=void\ move(Tile)
+comment5.text=\r\n\ This\ method\ moves\ this\ piece\ to\ another\ Tile.\r\n\ @param\ to\ The\ Tile\ to\ move\ to\r\n
+numComments=6

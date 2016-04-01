@@ -28,6 +28,9 @@ MouseWheelListener, ActionListener
     private int pieceHolding; // For custom setup
 
     private Button restartButton; // For restarting the game
+    
+    private Graphics bg; // For the buffered graphics
+    private Image offscreen; // The screen to print
 
     private class Side // PDS for each player's pieces
     {
@@ -66,6 +69,9 @@ MouseWheelListener, ActionListener
 
         addMouseListener(this);
         addMouseWheelListener(this);
+        
+        offscreen = createImage(getWidth(), getHeight());
+        bg = offscreen.getGraphics(); 
     }
 
     /**
@@ -76,46 +82,94 @@ MouseWheelListener, ActionListener
      */
     public void paint(Graphics g)
     {
-        g.setColor( Color.WHITE );
-        g.fillRect(0, 0, getWidth(), getHeight()); // Reset Screen
+        bg.setColor( Color.WHITE );
+        bg.fillRect(0, 0, getWidth(), getHeight()); // Reset Screen
 
-        g.setColor( Color.BLACK );
+        bg.setColor( Color.BLACK );
         // Creating the board
         for(int i = 0; i < WIDTH; i++){
             for(int j = 0; j < HEIGHT; j++){
-                tiles[i][j].paint(g);
+                tiles[i][j].paint(bg);
             }
         }
 
         // Highlight each side
         for(int h = 0; h < HEIGHT; h++){
-            tiles[0][h].highlight(g, Color.BLUE);
-            tiles[9][h].highlight(g, Color.RED);
+            tiles[0][h].highlight(bg, Color.BLUE);
+            tiles[9][h].highlight(bg, Color.RED);
         }
 
         // Dot for the Red Side
-        g.setColor( Color.RED );
-        g.fillOval(519,475,16,16);
+        bg.setColor( Color.RED );
+        bg.fillOval(519,475,16,16);
         // Dot of the Blue Side
-        g.setColor( Color.BLUE );
-        g.fillOval(67,17,16,16);
+        bg.setColor( Color.BLUE );
+        bg.fillOval(67,17,16,16);
 
         switch(phase){ 
-            case 0: // Red setup
-            g.setColor( Color.RED );
-            g.drawString("Red Setup", 10, 20);
-            break;
+            case 0: case 1: // During setup
+            boolean isRed = phase == 0;
+            Color c = isRed ? Color.RED : Color.BLUE;
+            String team = isRed ? "Red" : "Blue";
+            Side thisSide = isRed ? redSide : blueSide;
+            bg.setColor( c );
+            bg.drawString(team + " Setup", 600, 50);
+            bg.drawString("Place a", 600, 85);
 
-            case 1: // Blue setup
-            g.setColor( Color.BLUE );
-            g.drawString("Blue Setup", 10, 20);
+            String pieceFull = "";
+            boolean full = false;
+            Tile t = new Tile(600,100);
+            switch(pieceHolding){
+                case 0: // Pyramids
+                t.addPyramid(isRed);
+                if(thisSide.pyramids == 7){
+                    t.clear();
+                    pieceFull = "Pyramids";
+                    full = true;
+                }
+                break;
+
+                case 1: // Scarabs
+                t.addScarab(isRed);
+                if(thisSide.scarabs == 2){
+                    t.clear();
+                    pieceFull = "Scarabs";
+                    full = true;
+                }
+                break;
+
+                case 2: // Obelisks
+                t.addObelisk(isRed);
+                if(thisSide.obelisks == 4){
+                    t.clear();
+                    pieceFull = "Obelisks";
+                    full = true;
+                }
+                break;
+
+                case 3: // Pharaoh
+                t.addPharaoh(isRed);
+                if(thisSide.pharaohs == 1){
+                    t.clear();
+                    pieceFull = "Pharaohs";
+                    full = true;
+                }
+                break;
+            }
+
+            if(!full)
+                t.paint(bg);
+            else{
+                bg.drawString("Out of " + pieceFull, 600, 100);
+            }
             break;
 
             case 2: // During gameplay
-            g.setColor( turn ? Color.RED : Color.BLUE );
-            g.drawString(turn ? "Red's turn" : "Blue's turn", 10, 20);
+            bg.setColor( turn ? Color.RED : Color.BLUE );
+            bg.drawString(turn ? "Red's turn" : "Blue's turn", 600, 50);
             break;
         }
+        g.drawImage(offscreen,0,0,this); // Print 'offscreen'
     }
 
     /**
@@ -144,6 +198,13 @@ MouseWheelListener, ActionListener
 
             boolean valid = t.piece == null && 
                 (red ? t.x != 50 : t.x != 500);
+
+            // For easy rotation
+            if(t.piece instanceof Pyramid)
+                ((Pyramid)t.piece).rotate();
+            else if(t.piece instanceof Scarab)
+                ((Scarab)t.piece).rotate();
+
             switch(pieceHolding){
                 case 0: // Pyramids
                 if(thisSide.pyramids < 7 && valid){
@@ -179,11 +240,6 @@ MouseWheelListener, ActionListener
                 }
                 break;
             }
-            // For easy rotation
-            if(t.piece instanceof Pyramid)
-                ((Pyramid)t.piece).rotate();
-            else if(t.piece instanceof Scarab)
-                ((Scarab)t.piece).rotate();
 
             if(thisSide.isFull())
                 phase++;
@@ -232,13 +288,17 @@ MouseWheelListener, ActionListener
      * This method runs when the mouse enters the screen.
      * @param e The MouseEvent representing the state of the mouse
      */
-    public void mouseEntered(MouseEvent e){}
+    public void mouseEntered(MouseEvent e){
+        e.consume();
+    }
 
     /**
      * This method runs when the mouse exits the screen.
      * @param e The MouseEvent representing the state of the mouse
      */
-    public void mouseExited(MouseEvent e){}
+    public void mouseExited(MouseEvent e){
+        e.consume();
+    }
 
     /**
      * This method runs when the mouse is pressed. It handles moving pieces.
@@ -340,7 +400,7 @@ MouseWheelListener, ActionListener
     public void mouseWheelMoved(MouseWheelEvent e){
         pieceHolding++;
         pieceHolding = pieceHolding % 4;
-        showStatus(pieceHolding + ""); // Notify user
+        repaint();
     }
 
     /**
@@ -379,7 +439,8 @@ MouseWheelListener, ActionListener
             tiles[2][3].addScarab(true);
             tiles[2][4].addPharaoh(true);
             tiles[2][5].addObelisk(true);
-
+            tiles[2][5].piece.rotate();
+            
             tiles[5][2].addPyramid(false);
             tiles[5][3].addScarab(false);
             tiles[5][4].addPharaoh(false);
